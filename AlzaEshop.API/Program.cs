@@ -1,5 +1,5 @@
 using System.Reflection;
-using AlzaEshop.API.Common.Database.InMemoryRepository;
+using AlzaEshop.API.Common.Database.InMemory;
 using AlzaEshop.API.Common.Endpoints;
 using FluentValidation;
 using Scalar.AspNetCore;

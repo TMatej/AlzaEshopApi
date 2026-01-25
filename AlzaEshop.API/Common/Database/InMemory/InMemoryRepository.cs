@@ -1,6 +1,6 @@
 ﻿using AlzaEshop.API.Common.Database.Contract;
 
-namespace AlzaEshop.API.Common.Database.InMemoryRepository;
+namespace AlzaEshop.API.Common.Database.InMemory;
 
 /// <summary>
 /// In-memory repository implementation using a dictionary.
