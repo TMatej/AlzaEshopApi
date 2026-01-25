@@ -8,7 +8,7 @@ namespace AlzaEshop.API.Features.Products;
 // for now represents both Request and Command objects
 public sealed record CreateProductRequest(
     string Title,
-    string? ImageUrl,
+    string ImageUrl,
     decimal Price,
     string? Description,
     int? Quantity);
@@ -18,6 +18,9 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductRequ
     public CreateProductCommandValidator()
     {
         RuleFor(x => x.Title)
+            .NotEmpty();
+
+        RuleFor(x => x.ImageUrl)
             .NotEmpty();
 
         RuleFor(x => x.Price)
@@ -32,7 +35,7 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductRequ
 public sealed record CreateProductResponse(
     Guid Id,
     string Title,
-    string? ImageUrl,
+    string ImageUrl,
     decimal Price,
     string? Description,
     int Quantity,

@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using AlzaEshop.API.Features.Products;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace AlzaEshop.API.Common.Endpoints;
 
@@ -7,9 +7,13 @@ public static class EndpointExtensions
 {
     public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly)
     {
-        services.AddTransient<IEndpoint, GetProductsEndpoint>();
-        services.AddTransient<IEndpoint, GetSingleProductEndpoint>();
-        services.AddTransient<IEndpoint, CreateProductEndpoint>();
+        ServiceDescriptor[] endpointServiceDescriptors = assembly.DefinedTypes
+            .Where(x => x is { IsAbstract: false, IsInterface: false }
+                && x.IsAssignableTo(typeof(IEndpoint)))
+            .Select(x => ServiceDescriptor.Transient(typeof(IEndpoint), x))
+            .ToArray();
+
+        services.TryAddEnumerable(endpointServiceDescriptors);
 
         return services;
     }
