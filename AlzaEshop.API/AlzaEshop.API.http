@@ -1,0 +1,6 @@
+@AlzaEshop.API_HostAddress = http://localhost:5023
+
+GET {{AlzaEshop.API_HostAddress}}/
+Accept: application/json
+
+###
