@@ -58,7 +58,7 @@ public class UpdateProductQuantityEndpoint : IEndpoint
             return Results.ValidationProblem(validationRepresentation);
         }
 
-        var product = await dbContext.Products.GetSingleAsync(productId);
+        var product = await dbContext.Products.GetSingleAsync(productId, cancellationToken);
         if (product is null)
         {
             return Results.NotFound($"Product with Id: {productId} does not exist.");
@@ -67,7 +67,7 @@ public class UpdateProductQuantityEndpoint : IEndpoint
         var originalQuantity = product.Quantity;
 
         product.Quantity = request.Quantity!.Value;
-        await dbContext.Products.UpdateSingleAsync(product);
+        await dbContext.Products.UpdateSingleAsync(product, cancellationToken);
 
         logger.LogInformation("Product quantity was updated from {OriginalProductQuantity} to {NewProductQuantity}", originalQuantity, product.Quantity);
 

@@ -30,7 +30,7 @@ public class GetProductsEndpoint : IEndpoint
         ILogger<GetProductsEndpoint> logger,
         CancellationToken cancellationToken)
     {
-        var products = await dbContext.Products.GetAllAsync();
+        var products = await dbContext.Products.GetAllAsync(cancellationToken);
 
         var productResponses = new GetProductsResponse
         {

@@ -7,7 +7,6 @@ namespace AlzaEshop.API.Common.Database.InMemory;
 /// </summary>
 /// <typeparam name="TEntity">Type of the entity</typeparam>
 public class InMemoryRepository<TEntity> : IRepository<TEntity>
-
     where TEntity : IEntity
 {
     private readonly Dictionary<Guid, TEntity> _data;
@@ -20,19 +19,19 @@ public class InMemoryRepository<TEntity> : IRepository<TEntity>
         _data = [];
     }
 
-    public Task<IList<TEntity>> GetAllAsync()
+    public Task<List<TEntity>> GetAllAsync(CancellationToken ct)
     {
         var result = _data.Values.ToList();
-        return Task.FromResult((IList<TEntity>)result);
+        return Task.FromResult(result);
     }
 
-    public Task<TEntity?> GetSingleAsync(Guid id)
+    public Task<TEntity?> GetSingleAsync(Guid id, CancellationToken ct)
     {
         var result = _data.TryGetValue(id, out var entity) ? entity : default;
         return Task.FromResult(result);
     }
 
-    public Task<TEntity> CreateSingleAsync(TEntity entity)
+    public Task<TEntity> CreateSingleAsync(TEntity entity, CancellationToken ct)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
         var key = Guid.NewGuid();
@@ -42,7 +41,7 @@ public class InMemoryRepository<TEntity> : IRepository<TEntity>
         return Task.FromResult(entity);
     }
 
-    public Task UpdateSingleAsync(TEntity entity)
+    public Task UpdateSingleAsync(TEntity entity, CancellationToken ct)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -51,7 +50,7 @@ public class InMemoryRepository<TEntity> : IRepository<TEntity>
         return Task.CompletedTask;
     }
 
-    public Task DeleteSingleAsync(TEntity entity)
+    public Task DeleteSingleAsync(TEntity entity, CancellationToken ct)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
 

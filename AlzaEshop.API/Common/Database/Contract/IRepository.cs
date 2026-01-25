@@ -7,9 +7,9 @@
 public interface IRepository<TEntity>
     where TEntity : IEntity
 {
-    Task<IList<TEntity>> GetAllAsync();
-    Task<TEntity?> GetSingleAsync(Guid id);
-    Task<TEntity> CreateSingleAsync(TEntity entity);
-    Task UpdateSingleAsync(TEntity entity);
-    Task DeleteSingleAsync(TEntity entity);
+    Task<List<TEntity>> GetAllAsync(CancellationToken ct);
+    Task<TEntity?> GetSingleAsync(Guid id, CancellationToken ct);
+    Task<TEntity> CreateSingleAsync(TEntity entity, CancellationToken ct);
+    Task UpdateSingleAsync(TEntity entity, CancellationToken ct);
+    Task DeleteSingleAsync(TEntity entity, CancellationToken ct);
 }

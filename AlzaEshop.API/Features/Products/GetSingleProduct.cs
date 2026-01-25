@@ -51,7 +51,7 @@ public class GetSingleProductEndpoint : IEndpoint
             return Results.ValidationProblem(validationRepresentation);
         }
 
-        var product = await dbContext.Products.GetSingleAsync(query.Id);
+        var product = await dbContext.Products.GetSingleAsync(query.Id, cancellationToken);
         if (product is null)
         {
             return Results.NotFound();

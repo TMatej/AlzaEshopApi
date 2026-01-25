@@ -70,7 +70,7 @@ public class CreateProductEndpoint : IEndpoint
             Description = request.Description,
         };
 
-        product = await dbContext.Products.CreateSingleAsync(product);
+        product = await dbContext.Products.CreateSingleAsync(product, cancellationToken);
 
         logger.LogInformation("Created product: {@Product}", product);
 
