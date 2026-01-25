@@ -1,6 +1,7 @@
 using System.Reflection;
 using AlzaEshop.API.Common.Database.InMemoryRepository;
 using AlzaEshop.API.Common.Endpoints;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddInMemoryDatabase();
 builder.Services.AddOpenApi();
 
 var assembly = Assembly.GetExecutingAssembly();
+builder.Services.AddValidatorsFromAssembly(assembly);
 builder.Services.AddEndpoints(assembly);
 
 var app = builder.Build();
