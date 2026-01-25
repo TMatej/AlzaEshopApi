@@ -1,7 +1,8 @@
 using System.Reflection;
-using AlzaEshop.API.Common.Database.InMemory;
+using AlzaEshop.API.Common;
 using AlzaEshop.API.Common.Endpoints;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Serilog;
 
@@ -12,7 +13,7 @@ builder.Host.UseSerilog((context, services, loggerConfig) =>
         .ReadFrom.Configuration(context.Configuration)
         .ReadFrom.Services(services));
 
-builder.Services.AddInMemoryDatabase();
+builder.Services.AddDatabase(builder.Configuration);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
