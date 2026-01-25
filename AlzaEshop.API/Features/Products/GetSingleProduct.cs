@@ -43,7 +43,7 @@ public class GetSingleProductEndpoint : IEndpoint
     {
         var query = new GetSingleProductQuery(productId);
 
-        var validationResult = validator.Validate(query);
+        var validationResult = await validator.ValidateAsync(query, cancellationToken);
         if (!validationResult.IsValid)
         {
             var validationRepresentation = validationResult.ToDictionary();
