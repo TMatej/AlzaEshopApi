@@ -25,7 +25,7 @@ public class GetProductsEndpoint : IEndpoint
         app.MapGet("/products", Handle);
     }
 
-    private async Task<IResult> Handle(
+    private static async Task<IResult> Handle(
         IDatabaseContext dbContext,
         ILogger<GetProductsEndpoint> logger,
         CancellationToken cancellationToken)

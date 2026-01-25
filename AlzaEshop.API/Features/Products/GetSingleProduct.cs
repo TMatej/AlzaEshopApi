@@ -34,7 +34,7 @@ public class GetSingleProductEndpoint : IEndpoint
         app.MapGet("/products/{productId:guid}", Handle);
     }
 
-    private async Task<IResult> Handle(
+    private static async Task<IResult> Handle(
         [FromRoute] Guid productId,
         IValidator<GetSingleProductQuery> validator,
         IDatabaseContext dbContext,
