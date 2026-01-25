@@ -9,7 +9,7 @@ namespace AlzaEshop.API.Features.Products;
 public sealed record CreateProductRequest(
     string Title,
     string ImageUrl,
-    decimal Price,
+    decimal? Price,
     string? Description,
     int? Quantity);
 
@@ -64,12 +64,10 @@ public class CreateProductEndpoint : IEndpoint
         }
 
         var id = Guid.NewGuid();
-        var product = new Product(request.Title, request.ImageUrl)
+        var product = new Product(request.Title, request.ImageUrl, request.Price, request.Quantity)
         {
             Id = id,
-            Price = request.Price,
             Description = request.Description,
-            Quantity = request.Quantity ?? 1
         };
 
         product = await dbContext.Products.CreateSingleAsync(product);
