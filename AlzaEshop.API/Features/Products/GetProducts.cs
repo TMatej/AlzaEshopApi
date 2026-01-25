@@ -1,13 +1,8 @@
 ﻿using AlzaEshop.API.Common.Database.Contract;
 using AlzaEshop.API.Common.Endpoints;
+using AlzaEshop.API.Common.Responses;
 
 namespace AlzaEshop.API.Features.Products;
-
-public record CollectionResponse<TEntity>
-{
-    public IList<TEntity> Items { get; set; } = new List<TEntity>();
-    public int Count => Items.Count;
-}
 
 public record ProductModel()
 {
