@@ -2,8 +2,14 @@ using System.Reflection;
 using AlzaEshop.API.Common.Database.InMemoryRepository;
 using AlzaEshop.API.Common.Endpoints;
 using FluentValidation;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, services, loggerConfig) =>
+    loggerConfig
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services));
 
 builder.Services.AddInMemoryDatabase();
 
