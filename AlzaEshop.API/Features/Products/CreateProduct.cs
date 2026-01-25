@@ -18,16 +18,22 @@ public sealed class CreateProductCommandValidator : AbstractValidator<CreateProd
     public CreateProductCommandValidator()
     {
         RuleFor(x => x.Title)
-            .NotEmpty();
+            .NotEmpty()
+            .MaximumLength(Constraints.Products.TitleLength);
 
         RuleFor(x => x.ImageUrl)
-            .NotEmpty();
+            .NotEmpty()
+            .MaximumLength(Constraints.Products.ImageUrlLength);
 
         RuleFor(x => x.Price)
             .GreaterThanOrEqualTo(0);
 
         RuleFor(x => x.Quantity)
             .GreaterThanOrEqualTo(0)
+                .When(x => x is not null);
+
+        RuleFor(x => x.Description)
+            .MaximumLength(Constraints.Products.DescriptionLength)
                 .When(x => x is not null);
     }
 }
