@@ -27,7 +27,7 @@ public sealed class CreateProductCommandValidator : AbstractValidator<CreateProd
             .GreaterThanOrEqualTo(0);
 
         RuleFor(x => x.Quantity)
-            .GreaterThanOrEqualTo(1)
+            .GreaterThanOrEqualTo(0)
                 .When(x => x is not null);
     }
 }
