@@ -4,7 +4,7 @@ using AlzaEshop.API.Common.Responses;
 
 namespace AlzaEshop.API.Features.Products;
 
-public record ProductModel()
+public sealed record ProductModel()
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = null!;
@@ -15,7 +15,7 @@ public record ProductModel()
     public DateTimeOffset? CreatedAt { get; set; }
 }
 
-public record GetProductsResponse : CollectionResponse<ProductModel>
+public sealed record GetProductsResponse : CollectionResponse<ProductModel>
 { };
 
 public class GetProductsEndpoint : IEndpoint

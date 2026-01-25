@@ -13,7 +13,7 @@ public sealed record CreateProductRequest(
     string? Description,
     int? Quantity);
 
-public class CreateProductCommandValidator : AbstractValidator<CreateProductRequest>
+public sealed class CreateProductCommandValidator : AbstractValidator<CreateProductRequest>
 {
     public CreateProductCommandValidator()
     {
