@@ -2,6 +2,7 @@ using System.Reflection;
 using AlzaEshop.API.Common.Database.InMemoryRepository;
 using AlzaEshop.API.Common.Endpoints;
 using FluentValidation;
+using Scalar.AspNetCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,12 @@ app.MapEndpoints();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        options
+            .WithTitle("Alza API")
+            .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+    });
 }
 
 app.UseHttpsRedirection();
