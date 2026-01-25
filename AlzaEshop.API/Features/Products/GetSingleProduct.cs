@@ -31,7 +31,7 @@ public class GetSingleProductEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.Map("/Products/{productId:guid}", Handle);
+        app.MapGet("/products/{productId:guid}", Handle);
     }
 
     private async Task<IResult> Handle(

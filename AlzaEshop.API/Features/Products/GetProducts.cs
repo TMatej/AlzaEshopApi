@@ -27,7 +27,7 @@ public class GetProductsEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.Map("/products", Handle);
+        app.MapGet("/products", Handle);
     }
 
     private async Task<IResult> Handle(
