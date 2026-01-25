@@ -7,6 +7,8 @@ public static class EndpointExtensions
 {
     public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly)
     {
+        services.AddTransient<IEndpoint, GetProductsEndpoint>();
+        services.AddTransient<IEndpoint, GetSingleProductEndpoint>();
         services.AddTransient<IEndpoint, CreateProductEndpoint>();
 
         return services;
