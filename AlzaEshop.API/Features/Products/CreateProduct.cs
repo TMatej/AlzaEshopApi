@@ -1,5 +1,6 @@
 ﻿using AlzaEshop.API.Common.Database.Contract;
 using AlzaEshop.API.Common.Endpoints;
+using AlzaEshop.API.Common.Services.EntityIdProvider;
 using AlzaEshop.API.Features.Products.Common.Database;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +60,7 @@ public class CreateProductEndpoint : IEndpoint
         [FromBody] CreateProductRequest request,
         IValidator<CreateProductRequest> validator,
         IProductsRepository productsRepository,
+        IEntityIdProvider idProvider,
         ILogger<CreateProductEndpoint> logger,
         CancellationToken cancellationToken)
     {
@@ -70,7 +72,7 @@ public class CreateProductEndpoint : IEndpoint
             return Results.ValidationProblem(validationRepresentation);
         }
 
-        var id = Guid.NewGuid();
+        var id = idProvider.CreateNewId();
         var product = new Product(request.Title, request.ImageUrl, request.Price, request.Quantity)
         {
             Id = id,

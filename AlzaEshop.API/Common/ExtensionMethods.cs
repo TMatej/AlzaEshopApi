@@ -1,5 +1,6 @@
 ﻿using AlzaEshop.API.Common.Database.EntityFramework;
 using AlzaEshop.API.Common.Database.InMemory;
+using AlzaEshop.API.Common.Services.EntityIdProvider;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlzaEshop.API.Common;
@@ -22,6 +23,13 @@ public static class ExtensionMethods
             // ef database services
             services.AddEfDatabase();
         }
+
+        return services;
+    }
+
+    public static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        services.AddScoped<IEntityIdProvider, DefaultEntityIdProvider>();
 
         return services;
     }

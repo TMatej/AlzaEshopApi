@@ -14,6 +14,7 @@ builder.Host.UseSerilog((context, services, loggerConfig) =>
         .ReadFrom.Services(services));
 
 builder.Services.AddDatabase(builder.Configuration);
+builder.Services.AddServices();
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
