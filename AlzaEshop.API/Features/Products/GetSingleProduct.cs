@@ -54,7 +54,12 @@ public class GetSingleProductEndpoint : IEndpoint
         var product = await productsRepository.GetSingleAsync(query.Id, cancellationToken);
         if (product is null)
         {
-            return Results.NotFound();
+            return Results.NotFound(new ProblemDetails
+            {
+                Title = "Product not found",
+                Detail = $"Product with ID {productId} was not found",
+                Status = StatusCodes.Status404NotFound
+            });
         }
 
         var productResponse = new GetProductResponse

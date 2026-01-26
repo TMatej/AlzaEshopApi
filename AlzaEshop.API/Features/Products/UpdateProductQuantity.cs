@@ -61,7 +61,13 @@ public class UpdateProductQuantityEndpoint : IEndpoint
         var product = await productsRepository.GetSingleAsync(productId, cancellationToken);
         if (product is null)
         {
-            return Results.NotFound($"Product with Id: {productId} does not exist.");
+            return Results.NotFound(
+                new ProblemDetails
+                {
+                    Title = "Product not found",
+                    Detail = $"Product with ID {productId} was not found",
+                    Status = StatusCodes.Status404NotFound
+                });
         }
 
         var originalQuantity = product.Quantity;
