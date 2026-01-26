@@ -65,7 +65,7 @@ public class GetSingleProductEndpoint : IEndpoint
             Price = product.Price,
             Description = product.Description,
             Quantity = product.Quantity,
-            CreatedAt = product.CreatedAt
+            CreatedAt = product.CreatedOnUtc
         };
 
         return Results.Ok(productResponse);

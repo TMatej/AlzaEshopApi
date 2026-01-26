@@ -36,7 +36,7 @@ public abstract class InMemoryRepository<TEntity> : IRepository<TEntity>
         if (entity == null) throw new ArgumentNullException(nameof(entity));
         var key = Guid.NewGuid();
         entity.Id = key;
-        entity.CreatedAt = TimeProvider.System.GetUtcNow();
+        entity.CreatedOnUtc = TimeProvider.System.GetUtcNow();
         _data[key] = entity;
         return Task.FromResult(entity);
     }

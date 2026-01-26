@@ -36,9 +36,9 @@ public class ProductsDbContext : DbContext
 
                 if (entry.State == EntityState.Added)
                 {
-                    entity.CreatedAt = now;
+                    entity.CreatedOnUtc = now;
                 }
-                entity.UpdatedAt = now;
+                entity.ModifiedOnUtc = now;
             }
         }
     }

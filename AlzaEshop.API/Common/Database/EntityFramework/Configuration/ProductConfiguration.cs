@@ -39,12 +39,12 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasDefaultValue(0)
             .IsRequired();
 
-        builder.Property(x => x.CreatedAt)
+        builder.Property(x => x.CreatedOnUtc)
             .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("SYSDATETIMEOFFSET()")
             .IsRequired();
 
-        builder.Property(x => x.UpdatedAt)
+        builder.Property(x => x.ModifiedOnUtc)
             .HasColumnType("datetimeoffset")
             .IsRequired(false);
 

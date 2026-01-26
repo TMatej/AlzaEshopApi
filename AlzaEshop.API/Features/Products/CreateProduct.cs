@@ -81,7 +81,7 @@ public class CreateProductEndpoint : IEndpoint
         logger.LogInformation("Created product: {@Product}", product);
 
         var productResponse = new CreateProductResponse
-        (product.Id, product.Title, product.ImageUrl, product.Price, product.Description, product.Quantity, product.CreatedAt);
+        (product.Id, product.Title, product.ImageUrl, product.Price, product.Description, product.Quantity, product.CreatedOnUtc);
 
         return Results.Ok(productResponse);
     }

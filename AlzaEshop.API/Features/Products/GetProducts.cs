@@ -42,7 +42,7 @@ public class GetProductsEndpoint : IEndpoint
                 Price = x.Price,
                 Description = x.Description,
                 Quantity = x.Quantity,
-                CreatedAt = x.CreatedAt
+                CreatedAt = x.CreatedOnUtc
             }).ToList()
         };
 

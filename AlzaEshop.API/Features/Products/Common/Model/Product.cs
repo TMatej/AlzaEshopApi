@@ -13,6 +13,6 @@ public class Product(string title, string imageUrl, decimal? price = null, int? 
     public decimal Price { get; set; } = price ?? 0;
     public string? Description { get; set; }
     public int Quantity { get; set; } = quantity ?? 0; // we do not expect the number of products to exceed the int size
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset? UpdatedAt { get; set; }
+    public DateTimeOffset CreatedOnUtc { get; set; }
+    public DateTimeOffset? ModifiedOnUtc { get; set; }
 }
