@@ -6,7 +6,7 @@ namespace AlzaEshop.API.Common.Database.InMemory;
 /// In-memory repository implementation using a dictionary.
 /// </summary>
 /// <typeparam name="TEntity">Type of the entity</typeparam>
-public class InMemoryRepository<TEntity> : IRepository<TEntity>
+public abstract class InMemoryRepository<TEntity> : IRepository<TEntity>
     where TEntity : IEntity
 {
     private readonly Dictionary<Guid, TEntity> _data;
