@@ -1,5 +1,6 @@
 ﻿using AlzaEshop.API.Common.Database.Contract;
 using AlzaEshop.API.Common.Endpoints;
+using AlzaEshop.API.Features.Products.Common.Database;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,7 +58,7 @@ public class CreateProductEndpoint : IEndpoint
     private static async Task<IResult> Handle(
         [FromBody] CreateProductRequest request,
         IValidator<CreateProductRequest> validator,
-        IDatabaseContext dbContext,
+        IProductsRepository productsRepository,
         ILogger<CreateProductEndpoint> logger,
         CancellationToken cancellationToken)
     {
@@ -76,7 +77,7 @@ public class CreateProductEndpoint : IEndpoint
             Description = request.Description,
         };
 
-        product = await dbContext.Products.CreateSingleAsync(product, cancellationToken);
+        product = await productsRepository.CreateSingleAsync(product, cancellationToken);
 
         logger.LogInformation("Created product: {@Product}", product);
 

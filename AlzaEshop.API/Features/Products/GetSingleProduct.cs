@@ -1,5 +1,5 @@
-﻿using AlzaEshop.API.Common.Database.Contract;
-using AlzaEshop.API.Common.Endpoints;
+﻿using AlzaEshop.API.Common.Endpoints;
+using AlzaEshop.API.Features.Products.Common.Database;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,7 +37,7 @@ public class GetSingleProductEndpoint : IEndpoint
     private static async Task<IResult> Handle(
         [FromRoute] Guid productId,
         IValidator<GetSingleProductQuery> validator,
-        IDatabaseContext dbContext,
+        IProductsRepository productsRepository,
         ILogger<GetSingleProductQuery> logger,
         CancellationToken cancellationToken)
     {
@@ -51,7 +51,7 @@ public class GetSingleProductEndpoint : IEndpoint
             return Results.ValidationProblem(validationRepresentation);
         }
 
-        var product = await dbContext.Products.GetSingleAsync(query.Id, cancellationToken);
+        var product = await productsRepository.GetSingleAsync(query.Id, cancellationToken);
         if (product is null)
         {
             return Results.NotFound();

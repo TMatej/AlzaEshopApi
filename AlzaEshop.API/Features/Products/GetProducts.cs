@@ -1,6 +1,6 @@
-﻿using AlzaEshop.API.Common.Database.Contract;
-using AlzaEshop.API.Common.Endpoints;
+﻿using AlzaEshop.API.Common.Endpoints;
 using AlzaEshop.API.Common.Responses;
+using AlzaEshop.API.Features.Products.Common.Database;
 
 namespace AlzaEshop.API.Features.Products;
 
@@ -26,11 +26,11 @@ public class GetProductsEndpoint : IEndpoint
     }
 
     private static async Task<IResult> Handle(
-        IDatabaseContext dbContext,
+        IProductsRepository productsRepository,
         ILogger<GetProductsEndpoint> logger,
         CancellationToken cancellationToken)
     {
-        var products = await dbContext.Products.GetAllAsync(cancellationToken);
+        var products = await productsRepository.GetAllAsync(cancellationToken);
 
         var productResponses = new GetProductsResponse
         {

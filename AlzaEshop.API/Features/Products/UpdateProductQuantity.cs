@@ -1,5 +1,5 @@
-﻿using AlzaEshop.API.Common.Database.Contract;
 using AlzaEshop.API.Common.Endpoints;
+using AlzaEshop.API.Features.Products.Common.Database;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,7 +40,7 @@ public class UpdateProductQuantityEndpoint : IEndpoint
         [FromRoute] Guid productId,
         [FromBody] UpdateProductQuantityRequest request,
         IValidator<UpdateProductQuantityQuery> validator,
-        IDatabaseContext dbContext,
+        IProductsRepository productsRepository,
         ILogger<UpdateProductQuantityEndpoint> logger,
         CancellationToken cancellationToken)
     {
@@ -58,7 +58,7 @@ public class UpdateProductQuantityEndpoint : IEndpoint
             return Results.ValidationProblem(validationRepresentation);
         }
 
-        var product = await dbContext.Products.GetSingleAsync(productId, cancellationToken);
+        var product = await productsRepository.GetSingleAsync(productId, cancellationToken);
         if (product is null)
         {
             return Results.NotFound($"Product with Id: {productId} does not exist.");
@@ -67,7 +67,7 @@ public class UpdateProductQuantityEndpoint : IEndpoint
         var originalQuantity = product.Quantity;
 
         product.Quantity = request.Quantity!.Value;
-        await dbContext.Products.UpdateSingleAsync(product, cancellationToken);
+        await productsRepository.UpdateSingleAsync(product, cancellationToken);
 
         logger.LogInformation("Product quantity was updated from {OriginalProductQuantity} to {NewProductQuantity}", originalQuantity, product.Quantity);
 

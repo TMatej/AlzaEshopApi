@@ -6,7 +6,6 @@ public static class InMemoryDependencyRegistration
 {
     public static void AddInMemoryDatabase(this IServiceCollection services)
     {
-        services.AddSingleton<IDatabaseContext, InMemoryDatabaseContext>();
         services.AddScoped<IProductsRepository, InMemoryProductsRepository>();
     }
 }
