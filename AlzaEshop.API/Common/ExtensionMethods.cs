@@ -10,6 +10,7 @@ public static class ExtensionMethods
     {
         if (useInMemory)
         {
+            // in memory databse services
             services.AddInMemoryDatabase();
         }
         else
@@ -18,6 +19,8 @@ public static class ExtensionMethods
             {
                 options.UseSqlServer(configuration.GetConnectionString("ProductsDatabase"));
             });
+            // ef database services
+            services.AddEfDatabase();
         }
 
         return services;
