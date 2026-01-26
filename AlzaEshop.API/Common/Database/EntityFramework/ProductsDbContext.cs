@@ -1,4 +1,5 @@
-﻿using AlzaEshop.API.Common.Database.Contract;
+﻿using System.Reflection;
+using AlzaEshop.API.Features.Products.Common.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlzaEshop.API.Common.Database.EntityFramework;
@@ -10,36 +11,9 @@ public class ProductsDbContext : DbContext
     public ProductsDbContext(DbContextOptions options) : base(options)
     { }
 
-    public override int SaveChanges()
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        ModifyEnitities();
-        return base.SaveChanges();
-    }
-
-    public override Task<int> SaveChangesAsync(CancellationToken ct)
-    {
-        ModifyEnitities();
-        return base.SaveChangesAsync(ct);
-    }
-
-    private void ModifyEnitities()
-    {
-        var entries = ChangeTracker.Entries()
-            .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified)
-            .ToList();
-
-        foreach (var entry in entries)
-        {
-            if (entry is IEntity entity)
-            {
-                var now = TimeProvider.System.GetUtcNow();
-
-                if (entry.State == EntityState.Added)
-                {
-                    entity.CreatedOnUtc = now;
-                }
-                entity.ModifiedOnUtc = now;
-            }
-        }
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        base.OnModelCreating(modelBuilder);
     }
 }

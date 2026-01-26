@@ -1,4 +1,5 @@
 ﻿using AlzaEshop.API.Common.Database.EntityFramework;
+using AlzaEshop.API.Common.Database.EntityFramework.Configuration;
 using AlzaEshop.API.Common.Database.InMemory;
 using AlzaEshop.API.Common.Services.EntityIdProvider;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,17 @@ public static class ExtensionMethods
         }
         else
         {
-            services.AddDbContext<ProductsDbContext>(options =>
+            // interceptors
+            services.AddSingleton<AuditingInterceptor>();
+
+            // db context
+            services.AddDbContext<ProductsDbContext>((sp, options) =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("ProductsDatabase"));
+                options.UseSqlServer(configuration.GetConnectionString("ProductsDatabase"))
+                    .AddInterceptors(
+                        sp.GetRequiredService<AuditingInterceptor>());
             });
+
             // ef database services
             services.AddEfDatabase();
         }
