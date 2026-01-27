@@ -1,5 +1,4 @@
 ﻿using AlzaEshop.API.Common.Database.EntityFramework;
-using AlzaEshop.API.Common.Database.EntityFramework.Configuration;
 using AlzaEshop.API.Common.Database.InMemory;
 using AlzaEshop.API.Common.Services.EntityIdProvider;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +36,7 @@ public static class ExtensionMethods
 
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
+        services.AddSingleton(TimeProvider.System);
         services.AddScoped<IEntityIdProvider, DefaultEntityIdProvider>();
 
         return services;

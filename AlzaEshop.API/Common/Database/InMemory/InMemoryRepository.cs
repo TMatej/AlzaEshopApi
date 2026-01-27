@@ -1,4 +1,5 @@
 ﻿using AlzaEshop.API.Common.Database.Contract;
+using AlzaEshop.API.Common.Services.EntityIdProvider;
 
 namespace AlzaEshop.API.Common.Database.InMemory;
 
@@ -10,13 +11,17 @@ public abstract class InMemoryRepository<TEntity> : IRepository<TEntity>
     where TEntity : IEntity
 {
     private readonly Dictionary<Guid, TEntity> _data;
+    private readonly IEntityIdProvider _idProvider;
+    private readonly TimeProvider _timeProvider;
 
     /// <summary>
     /// Initialize a new in-memory repository.
     /// </summary>
-    public InMemoryRepository()
+    public InMemoryRepository(IEntityIdProvider idProvider, TimeProvider timeProvider)
     {
         _data = [];
+        _idProvider = idProvider;
+        _timeProvider = timeProvider;
     }
 
     public Task<List<TEntity>> GetAllAsync(CancellationToken ct)
@@ -34,9 +39,9 @@ public abstract class InMemoryRepository<TEntity> : IRepository<TEntity>
     public Task<TEntity> CreateSingleAsync(TEntity entity, CancellationToken ct)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
-        var key = Guid.NewGuid();
+        var key = _idProvider.CreateNewId();
         entity.Id = key;
-        entity.CreatedOnUtc = TimeProvider.System.GetUtcNow();
+        entity.CreatedOnUtc = _timeProvider.GetUtcNow();
         _data[key] = entity;
         return Task.FromResult(entity);
     }
