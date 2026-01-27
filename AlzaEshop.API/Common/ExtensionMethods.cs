@@ -22,7 +22,7 @@ public static class ExtensionMethods
             // db context
             services.AddDbContext<ProductsDbContext>((sp, options) =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("ProductsDatabase"))
+                options.UseSqlServer(configuration.GetConnectionString("ProductsConnection"))
                     .AddInterceptors(
                         sp.GetRequiredService<AuditingInterceptor>());
             });
