@@ -1,5 +1,8 @@
 using AlzaEshop.API.Common.Database.Contract;
 
+namespace AlzaEshop.API.Features.Products.Common.Model;
+
+
 /// <summary>
 /// Initial representation of a product.
 /// </summary>

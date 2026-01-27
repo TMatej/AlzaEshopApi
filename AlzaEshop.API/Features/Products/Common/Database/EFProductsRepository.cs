@@ -1,4 +1,5 @@
 ﻿using AlzaEshop.API.Common.Database.EntityFramework;
+using AlzaEshop.API.Features.Products.Common.Model;
 
 namespace AlzaEshop.API.Features.Products.Common.Database;
 

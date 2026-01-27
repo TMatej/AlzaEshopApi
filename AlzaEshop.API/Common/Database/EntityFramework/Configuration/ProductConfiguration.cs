@@ -1,4 +1,5 @@
 ﻿using AlzaEshop.API.Common.Database.Contract;
+using AlzaEshop.API.Features.Products.Common.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

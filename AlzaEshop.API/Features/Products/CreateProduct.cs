@@ -2,6 +2,7 @@
 using AlzaEshop.API.Common.Endpoints;
 using AlzaEshop.API.Common.Services.EntityIdProvider;
 using AlzaEshop.API.Features.Products.Common.Database;
+using AlzaEshop.API.Features.Products.Common.Model;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
