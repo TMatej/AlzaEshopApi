@@ -3,7 +3,7 @@ using AlzaEshop.API.Features.Products.Common.Database;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlzaEshop.API.Features.Products;
+namespace AlzaEshop.API.Features.Products.v1;
 
 public sealed record UpdateProductQuantityRequest
 {
@@ -39,7 +39,8 @@ public class UpdateProductQuantityEndpoint : IEndpoint
             .Accepts<UpdateProductQuantityRequest>("application/json")
             .Produces(StatusCodes.Status200OK)
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")
-            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json");
+            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")
+            .MapToApiVersion(1);
     }
 
     private static async Task<IResult> Handle(

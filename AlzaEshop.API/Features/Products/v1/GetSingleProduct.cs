@@ -3,7 +3,7 @@ using AlzaEshop.API.Features.Products.Common.Database;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlzaEshop.API.Features.Products;
+namespace AlzaEshop.API.Features.Products.v1;
 
 public sealed record GetSingleProductQuery(Guid Id);
 
@@ -36,7 +36,8 @@ public class GetSingleProductEndpoint : IEndpoint
             .WithDescription("This endpoint allows retrieval of a single product by its Id.")
             .Produces<GetProductResponse>(StatusCodes.Status200OK, "application/json")
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")
-            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json");
+            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")
+            .MapToApiVersion(1);
     }
 
     private static async Task<IResult> Handle(

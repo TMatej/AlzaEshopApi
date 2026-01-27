@@ -1,11 +1,11 @@
 meta {
   name: Create Product
   type: http
-  seq: 4
+  seq: 1
 }
 
 post {
-  url: {{baseUrl}}/products
+  url: {{baseUrl}}/api/v1/products
   body: json
   auth: inherit
 }
@@ -14,9 +14,9 @@ body:json {
   {
     "Title": "Iphone 17",
     "ImageUrl": "https://image.alza.cz/products/RI054b5/RI054b5.jpg?width=500&height=500",
-    "Price": 799,
-    "Description": "This is a dummy description about a IPhone 17",
-    "Quantity": 10
+    "Price": 10,
+    "Description": "This is a dummy description about an IPhone 17",
+    "Quantity": 1
   }
 }
 

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace AlzaEshop.API.Common.Endpoints;
@@ -20,10 +21,19 @@ public static class EndpointExtensions
 
     public static IApplicationBuilder MapEndpoints(this WebApplication app)
     {
+        var versionSet = app.NewApiVersionSet()
+            .HasApiVersion(new ApiVersion(1))
+            .HasApiVersion(new ApiVersion(2))
+            .ReportApiVersions()
+            .Build();
+
+        var versionedGroup = app.MapGroup("api/v{apiVersion:apiVersion}")
+            .WithApiVersionSet(versionSet);
+
         var endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
         foreach (var endpoint in endpoints)
         {
-            endpoint.MapEndpoint(app);
+            endpoint.MapEndpoint(versionedGroup);
         }
 
         return app;

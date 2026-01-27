@@ -3,7 +3,7 @@ using AlzaEshop.API.Common.Responses;
 using AlzaEshop.API.Features.Products.Common.Database;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlzaEshop.API.Features.Products;
+namespace AlzaEshop.API.Features.Products.v1;
 
 public sealed record ProductModel()
 {
@@ -28,7 +28,8 @@ public class GetProductsEndpoint : IEndpoint
             .WithDescription("This endpoint allows retrieval of all products.")
             .Produces<GetProductsResponse>(StatusCodes.Status200OK, "application/json")
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")
-            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json");
+            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")
+            .MapToApiVersion(1);
     }
 
     private static async Task<IResult> Handle(

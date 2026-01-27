@@ -23,6 +23,7 @@ builder.Services.AddOpenApi();
 var assembly = Assembly.GetExecutingAssembly();
 builder.Services.AddValidatorsFromAssembly(assembly);
 builder.Services.AddEndpoints(assembly);
+builder.Services.AddEndpointsVersioning();
 
 var app = builder.Build();
 

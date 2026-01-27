@@ -5,7 +5,7 @@ using AlzaEshop.API.Features.Products.Common.Model;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlzaEshop.API.Features.Products;
+namespace AlzaEshop.API.Features.Products.v1;
 
 // for now represents both Request and Command objects
 public sealed record CreateProductRequest
@@ -56,12 +56,13 @@ public class CreateProductEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/products", Handle)
+        app.MapPost("products", Handle)
             .WithName("Create new product")
             .WithDescription("This endpoint allows cretaion of a new product.")
             .Accepts<CreateProductRequest>("application/json")
             .Produces<CreateProductResponse>(StatusCodes.Status200OK, "application/json")
-            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json");
+            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")
+            .MapToApiVersion(1);
     }
 
     private static async Task<IResult> Handle(
