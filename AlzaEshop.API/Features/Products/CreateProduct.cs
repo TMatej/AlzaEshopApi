@@ -29,7 +29,8 @@ public sealed class CreateProductCommandValidator : AbstractValidator<CreateProd
             .MaximumLength(Constraints.Products.ImageUrlLength);
 
         RuleFor(x => x.Price)
-            .GreaterThanOrEqualTo(0);
+            .GreaterThanOrEqualTo(0)
+                .When(x => x is not null);
 
         RuleFor(x => x.Quantity)
             .GreaterThanOrEqualTo(0)
