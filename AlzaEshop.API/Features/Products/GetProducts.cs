@@ -1,6 +1,7 @@
 ﻿using AlzaEshop.API.Common.Endpoints;
 using AlzaEshop.API.Common.Responses;
 using AlzaEshop.API.Features.Products.Common.Database;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AlzaEshop.API.Features.Products;
 
@@ -12,7 +13,7 @@ public sealed record ProductModel()
     public decimal Price { get; set; }
     public string? Description { get; set; }
     public int Quantity { get; set; }
-    public DateTimeOffset? CreatedAt { get; set; }
+    public DateTimeOffset CreatedOnUtc { get; set; }
 }
 
 public sealed record GetProductsResponse : CollectionResponse<ProductModel>
@@ -22,7 +23,12 @@ public class GetProductsEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/products", Handle);
+        app.MapGet("/products", Handle)
+            .WithName("Get all products")
+            .WithDescription("This endpoint allows retrieval of all products.")
+            .Produces<GetProductsResponse>(StatusCodes.Status200OK, "application/json")
+            .Produces<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")
+            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json");
     }
 
     private static async Task<IResult> Handle(
@@ -42,7 +48,7 @@ public class GetProductsEndpoint : IEndpoint
                 Price = x.Price,
                 Description = x.Description,
                 Quantity = x.Quantity,
-                CreatedAt = x.CreatedOnUtc
+                CreatedOnUtc = x.CreatedOnUtc
             }).ToList()
         };
 

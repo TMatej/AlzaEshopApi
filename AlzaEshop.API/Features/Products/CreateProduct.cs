@@ -1,5 +1,4 @@
-﻿using AlzaEshop.API.Common.Database.Contract;
-using AlzaEshop.API.Common.Endpoints;
+﻿using AlzaEshop.API.Common.Endpoints;
 using AlzaEshop.API.Common.Services.EntityIdProvider;
 using AlzaEshop.API.Features.Products.Common.Database;
 using AlzaEshop.API.Features.Products.Common.Model;
@@ -9,12 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace AlzaEshop.API.Features.Products;
 
 // for now represents both Request and Command objects
-public sealed record CreateProductRequest(
-    string Title,
-    string ImageUrl,
-    decimal? Price,
-    string? Description,
-    int? Quantity);
+public sealed record CreateProductRequest
+{
+    public required string Title { get; set; } = null!;
+    public required string ImageUrl { get; set; } = null!;
+    public decimal? Price { get; set; }
+    public string? Description { get; set; }
+    public int? Quantity { get; set; }
+}
 
 public sealed class CreateProductCommandValidator : AbstractValidator<CreateProductRequest>
 {
@@ -55,7 +56,12 @@ public class CreateProductEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/products", Handle);
+        app.MapPost("/products", Handle)
+            .WithName("Create new product")
+            .WithDescription("This endpoint allows cretaion of a new product.")
+            .Accepts<CreateProductRequest>("application/json")
+            .Produces<CreateProductResponse>(StatusCodes.Status200OK, "application/json")
+            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json");
     }
 
     private static async Task<IResult> Handle(

@@ -1,4 +1,4 @@
-using AlzaEshop.API.Common.Endpoints;
+﻿using AlzaEshop.API.Common.Endpoints;
 using AlzaEshop.API.Features.Products.Common.Database;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -7,13 +7,13 @@ namespace AlzaEshop.API.Features.Products;
 
 public sealed record UpdateProductQuantityRequest
 {
-    public int? Quantity { get; set; }
+    public required int Quantity { get; set; }
 }
 
 public sealed record UpdateProductQuantityQuery
 {
     public Guid Id { get; set; }
-    public int? Quantity { get; set; }
+    public int Quantity { get; set; }
 }
 
 public sealed class UpdateProductQuantityQueryValidator : AbstractValidator<UpdateProductQuantityQuery>
@@ -33,7 +33,13 @@ public class UpdateProductQuantityEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/products/{productId:guid}/quantity", Handle);
+        app.MapPut("/products/{productId:guid}/quantity", Handle)
+            .WithName("Update Product Quantity")
+            .WithDescription("This endpoint allows update of the product quantity.")
+            .Accepts<UpdateProductQuantityRequest>("application/json")
+            .Produces(StatusCodes.Status200OK)
+            .Produces<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")
+            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json");
     }
 
     private static async Task<IResult> Handle(
@@ -72,7 +78,7 @@ public class UpdateProductQuantityEndpoint : IEndpoint
 
         var originalQuantity = product.Quantity;
 
-        product.Quantity = request.Quantity!.Value;
+        product.Quantity = request.Quantity;
         await productsRepository.UpdateSingleAsync(product, cancellationToken);
 
         logger.LogInformation("Product quantity was updated from {OriginalProductQuantity} to {NewProductQuantity}", originalQuantity, product.Quantity);

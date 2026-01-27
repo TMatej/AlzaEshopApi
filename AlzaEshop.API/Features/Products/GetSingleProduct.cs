@@ -24,14 +24,19 @@ public sealed record GetProductResponse
     public decimal Price { get; set; }
     public string? Description { get; set; }
     public int Quantity { get; set; }
-    public DateTimeOffset? CreatedAt { get; set; }
+    public DateTimeOffset CreatedOnUtc { get; set; }
 }
 
 public class GetSingleProductEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/products/{productId:guid}", Handle);
+        app.MapGet("/products/{productId:guid}", Handle)
+            .WithName("Get single product by Id")
+            .WithDescription("This endpoint allows retrieval of a single product by its Id.")
+            .Produces<GetProductResponse>(StatusCodes.Status200OK, "application/json")
+            .Produces<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")
+            .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json");
     }
 
     private static async Task<IResult> Handle(
@@ -70,7 +75,7 @@ public class GetSingleProductEndpoint : IEndpoint
             Price = product.Price,
             Description = product.Description,
             Quantity = product.Quantity,
-            CreatedAt = product.CreatedOnUtc
+            CreatedOnUtc = product.CreatedOnUtc
         };
 
         return Results.Ok(productResponse);
