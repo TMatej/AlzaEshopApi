@@ -1,6 +1,6 @@
-﻿namespace AlzaEshop.API.Common.Database.Contract;
+﻿namespace AlzaEshop.API.Features.Products.Common.Model;
 
-public static class Constraints
+public static partial class Constraints
 {
     public static class Products
     {
