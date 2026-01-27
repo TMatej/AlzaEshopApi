@@ -37,7 +37,7 @@ public static class ExtensionMethods
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddSingleton(TimeProvider.System);
-        services.AddScoped<IEntityIdProvider, DefaultEntityIdProvider>();
+        services.AddSingleton<IEntityIdProvider, DefaultEntityIdProvider>();
 
         return services;
     }
