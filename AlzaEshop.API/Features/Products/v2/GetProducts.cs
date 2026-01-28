@@ -62,20 +62,10 @@ public class GetProductsEndpoint : IEndpoint
         ILogger<GetProductsEndpoint> logger,
         CancellationToken cancellationToken)
     {
-        if (pageNumber is null)
-        {
-            pageNumber = 0;
-        }
-
-        if (pageSize is null)
-        {
-            pageSize = 10;
-        }
-
         var request = new PagingRequest
         {
-            PageNumber = pageNumber.Value,
-            PageSize = pageSize.Value
+            PageNumber = pageNumber ?? 0,
+            PageSize = pageSize ?? 10
         };
 
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
