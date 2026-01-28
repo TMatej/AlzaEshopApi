@@ -47,15 +47,41 @@ public static class ExtensionMethods
     {
         services.AddApiVersioning(options =>
         {
-            options.DefaultApiVersion = new ApiVersion(1);
+            options.DefaultApiVersion = new ApiVersion(1, 0);
             // in case that the api is already in production a QueryStringApiVersionReader or HeaderApiVersionReader
             // would be more appropriate as no breaking change is introduced to uri (in case it was not planned from the start)
             options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            options.ReportApiVersions = true;
         })
         .AddApiExplorer(options =>
         {
             options.GroupNameFormat = "'v'V";
             options.SubstituteApiVersionInUrl = true;
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection AddOpenApiDocuments(this IServiceCollection services)
+    {
+        services.AddOpenApi("v1", options =>
+        {
+            options.AddDocumentTransformer((document, context, cancellationToken) =>
+            {
+                document.Info.Title = "Alza API v1";
+                document.Info.Version = "v1";
+                return Task.CompletedTask;
+            });
+        });
+
+        services.AddOpenApi("v2", options =>
+        {
+            options.AddDocumentTransformer((document, context, cancellationToken) =>
+            {
+                document.Info.Title = "Alza API v2";
+                document.Info.Version = "v2";
+                return Task.CompletedTask;
+            });
         });
 
         return services;

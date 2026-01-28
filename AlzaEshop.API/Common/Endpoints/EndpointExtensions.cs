@@ -22,8 +22,8 @@ public static class EndpointExtensions
     public static IApplicationBuilder MapEndpoints(this WebApplication app)
     {
         var versionSet = app.NewApiVersionSet()
-            .HasApiVersion(new ApiVersion(1))
-            .HasApiVersion(new ApiVersion(2))
+            .HasApiVersion(new ApiVersion(1, 0))
+            .HasApiVersion(new ApiVersion(2, 0))
             .ReportApiVersions()
             .Build();
 

@@ -16,9 +16,7 @@ builder.Host.UseSerilog((context, services, loggerConfig) =>
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices();
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApiDocuments();
 
 var assembly = Assembly.GetExecutingAssembly();
 builder.Services.AddValidatorsFromAssembly(assembly);
@@ -29,15 +27,16 @@ var app = builder.Build();
 
 app.MapEndpoints();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi("/openapi/{documentName}.json");
     app.MapScalarApiReference(options =>
     {
         options
             .WithTitle("Alza API")
-            .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+            .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
+            .AddDocument("v1", "Version 1", "/openapi/v1.json", true)
+            .AddDocument("v2", "Version 2", "/openapi/v2.json");
     });
 }
 
