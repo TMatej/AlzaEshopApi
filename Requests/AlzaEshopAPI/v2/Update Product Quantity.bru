@@ -1,0 +1,26 @@
+meta {
+  name: Update Product Quantity
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/v2/products/:productId/quantity
+  body: json
+  auth: inherit
+}
+
+params:path {
+  productId: b4bbb61c-6940-4387-8d60-f516475e28c2
+}
+
+body:json {
+  {
+    "Quantity": 16
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

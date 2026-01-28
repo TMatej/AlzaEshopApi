@@ -29,6 +29,7 @@ app.MapEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
+    //// Apply migrations and seed database
     app.MapOpenApi("/openapi/{documentName}.json");
     app.MapScalarApiReference(options =>
     {

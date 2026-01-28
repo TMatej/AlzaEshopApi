@@ -1,6 +1,7 @@
 ﻿using AlzaEshop.API.Common.Database.EntityFramework;
 using AlzaEshop.API.Common.Database.InMemory;
 using AlzaEshop.API.Common.Services.EntityIdProvider;
+using AlzaEshop.API.Features.Products.v2;
 using Asp.Versioning;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +41,9 @@ public static class ExtensionMethods
     {
         services.AddSingleton(TimeProvider.System);
         services.AddSingleton<IEntityIdProvider, DefaultEntityIdProvider>();
+        services.AddSingleton<ProductUpdateQueue>();
+        services.AddHostedService<ProductUpdateBackgroundService>();
+        services.AddScoped<ProductServices>();
 
         return services;
     }
