@@ -9,5 +9,7 @@
   <Folder Name="/src/">
     <Project Path="AlzaEshop.API/AlzaEshop.API.csproj" />
   </Folder>
-  <Folder Name="/test/" />
+  <Folder Name="/test/">
+    <Project Path="AlzaEshop.API.UnitTests/AlzaEshop.API.UnitTests.csproj" Id="9f3d0e7a-004b-4573-aedf-dd1ab6201d1f" />
+  </Folder>
 </Solution>
