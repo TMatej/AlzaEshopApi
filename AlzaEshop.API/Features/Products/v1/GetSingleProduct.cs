@@ -34,6 +34,7 @@ public class GetSingleProductEndpoint : IEndpoint
         app.MapGet("/products/{productId:guid}", Handle)
             .WithName("Get single product by Id")
             .WithDescription("This endpoint allows retrieval of a single product by its Id.")
+            .WithTags("products")
             .Produces<GetProductResponse>(StatusCodes.Status200OK, "application/json")
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")
             .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")

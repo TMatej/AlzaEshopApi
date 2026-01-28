@@ -36,6 +36,7 @@ public class UpdateProductQuantityEndpoint : IEndpoint
         app.MapPut("/products/{productId:guid}/quantity", Handle)
             .WithName("Update Product Quantity")
             .WithDescription("This endpoint allows update of the product quantity.")
+            .WithTags("products")
             .Accepts<UpdateProductQuantityRequest>("application/json")
             .Produces(StatusCodes.Status200OK)
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")

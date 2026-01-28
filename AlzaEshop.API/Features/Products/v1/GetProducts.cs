@@ -26,6 +26,7 @@ public class GetProductsEndpoint : IEndpoint
         app.MapGet("/products", Handle)
             .WithName("Get all products")
             .WithDescription("This endpoint allows retrieval of all products.")
+            .WithTags("products")
             .Produces<GetProductsResponse>(StatusCodes.Status200OK, "application/json")
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")
             .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")

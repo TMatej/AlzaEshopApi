@@ -59,6 +59,7 @@ public class CreateProductEndpoint : IEndpoint
         app.MapPost("products", Handle)
             .WithName("Create new product")
             .WithDescription("This endpoint allows cretaion of a new product.")
+            .WithTags("products")
             .Accepts<CreateProductRequest>("application/json")
             .Produces<CreateProductResponse>(StatusCodes.Status200OK, "application/json")
             .Produces<ValidationProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")
