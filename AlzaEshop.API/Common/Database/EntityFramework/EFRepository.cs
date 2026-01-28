@@ -10,7 +10,9 @@ namespace AlzaEshop.API.Common.Database.EntityFramework;
 public abstract class EFRepository<TEntity>(ProductsDbContext context) : IRepository<TEntity>
     where TEntity : class, IEntity
 {
-    protected readonly ProductsDbContext _context = context;
+    private readonly ProductsDbContext _context = context;
+
+    protected DbSet<TEntity> Set => _context.Set<TEntity>();
 
     public async Task<TEntity> CreateSingleAsync(TEntity entity, CancellationToken ct)
     {

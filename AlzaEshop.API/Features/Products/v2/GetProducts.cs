@@ -1,4 +1,5 @@
-﻿using AlzaEshop.API.Common.Endpoints;
+﻿using AlzaEshop.API.Common;
+using AlzaEshop.API.Common.Endpoints;
 using AlzaEshop.API.Common.Responses;
 using AlzaEshop.API.Features.Products.Common.Database;
 using FluentValidation;
@@ -85,15 +86,11 @@ public class GetProductsEndpoint : IEndpoint
             return Results.ValidationProblem(validationRepresentation);
         }
 
-        var products = await productsRepository.GetAllAsync(cancellationToken);
+        var products = await productsRepository.GetAllAsync(request.PageNumber, request.PageSize, SortOrder.Descending, cancellationToken);
 
         var productResponses = new GetProductsResponse
         {
-            // simple in memory offset based paging
             Items = products
-            .OrderByDescending(x => x.CreatedOnUtc)
-            .Skip(request.PageNumber * request.PageSize)
-            .Take(request.PageSize)
             .Select(x => new ProductModel
             {
                 Id = x.Id,

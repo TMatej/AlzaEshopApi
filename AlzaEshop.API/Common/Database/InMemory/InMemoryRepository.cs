@@ -14,6 +14,10 @@ public abstract class InMemoryRepository<TEntity> : IRepository<TEntity>
     private readonly IEntityIdProvider _idProvider;
     private readonly TimeProvider _timeProvider;
 
+    protected Dictionary<Guid, TEntity> Data => _data;
+    protected IEntityIdProvider IdProvider => _idProvider;
+    protected TimeProvider TimeProvider => _timeProvider;
+
     /// <summary>
     /// Initialize a new in-memory repository.
     /// </summary>
@@ -26,23 +30,23 @@ public abstract class InMemoryRepository<TEntity> : IRepository<TEntity>
 
     public Task<List<TEntity>> GetAllAsync(CancellationToken ct)
     {
-        var result = _data.Values.ToList();
+        var result = Data.Values.ToList();
         return Task.FromResult(result);
     }
 
     public Task<TEntity?> GetSingleAsync(Guid id, CancellationToken ct)
     {
-        var result = _data.TryGetValue(id, out var entity) ? entity : default;
+        var result = Data.TryGetValue(id, out var entity) ? entity : default;
         return Task.FromResult(result);
     }
 
     public Task<TEntity> CreateSingleAsync(TEntity entity, CancellationToken ct)
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
-        var key = _idProvider.CreateNewId();
+        var key = IdProvider.CreateNewId();
         entity.Id = key;
-        entity.CreatedOnUtc = _timeProvider.GetUtcNow();
-        _data[key] = entity;
+        entity.CreatedOnUtc = TimeProvider.GetUtcNow();
+        Data[key] = entity;
         return Task.FromResult(entity);
     }
 
@@ -50,7 +54,7 @@ public abstract class InMemoryRepository<TEntity> : IRepository<TEntity>
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-        _data[entity.Id] = entity;
+        Data[entity.Id] = entity;
 
         return Task.CompletedTask;
     }
@@ -59,7 +63,7 @@ public abstract class InMemoryRepository<TEntity> : IRepository<TEntity>
     {
         if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-        _data.Remove(entity.Id);
+        Data.Remove(entity.Id);
 
         return Task.CompletedTask;
     }

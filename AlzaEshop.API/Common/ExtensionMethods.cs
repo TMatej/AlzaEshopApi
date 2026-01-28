@@ -8,8 +8,9 @@ namespace AlzaEshop.API.Common;
 
 public static class ExtensionMethods
 {
-    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration, bool useInMemory = false)
+    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
+        var useInMemory = configuration.GetRequiredSection("DatabaseSettings").GetValue<bool>("UseInMemoryDatabase");
         if (useInMemory)
         {
             // in memory databse services
