@@ -89,7 +89,9 @@ public class GetProductsEndpoint : IEndpoint
 
         var productResponses = new GetProductsResponse
         {
+            // simple in memory offset based paging
             Items = products
+            .OrderByDescending(x => x.CreatedOnUtc)
             .Skip(request.PageNumber * request.PageSize)
             .Take(request.PageSize)
             .Select(x => new ProductModel
