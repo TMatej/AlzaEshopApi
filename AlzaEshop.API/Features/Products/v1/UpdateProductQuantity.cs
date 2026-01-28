@@ -10,15 +10,15 @@ public sealed record UpdateProductQuantityRequest
     public required int Quantity { get; set; }
 }
 
-public sealed record UpdateProductQuantityQuery
+public sealed record UpdateProductQuantityCommand
 {
     public Guid Id { get; set; }
     public int Quantity { get; set; }
 }
 
-public sealed class UpdateProductQuantityQueryValidator : AbstractValidator<UpdateProductQuantityQuery>
+public sealed class UpdateProductQuantityCommandValidator : AbstractValidator<UpdateProductQuantityCommand>
 {
-    public UpdateProductQuantityQueryValidator()
+    public UpdateProductQuantityCommandValidator()
     {
         RuleFor(x => x.Id)
             .NotEmpty();
@@ -47,18 +47,18 @@ public class UpdateProductQuantityEndpoint : IEndpoint
     private static async Task<IResult> Handle(
         [FromRoute] Guid productId,
         [FromBody] UpdateProductQuantityRequest request,
-        IValidator<UpdateProductQuantityQuery> validator,
+        IValidator<UpdateProductQuantityCommand> validator,
         IProductsRepository productsRepository,
         ILogger<UpdateProductQuantityEndpoint> logger,
         CancellationToken cancellationToken)
     {
-        var query = new UpdateProductQuantityQuery
+        var command = new UpdateProductQuantityCommand
         {
             Id = productId,
             Quantity = request.Quantity
         };
 
-        var validationResult = await validator.ValidateAsync(query, cancellationToken);
+        var validationResult = await validator.ValidateAsync(command, cancellationToken);
         if (!validationResult.IsValid)
         {
             var validationRepresentation = validationResult.ToDictionary();

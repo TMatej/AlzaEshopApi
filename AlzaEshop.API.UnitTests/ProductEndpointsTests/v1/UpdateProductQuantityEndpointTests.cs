@@ -61,14 +61,14 @@ public class UpdateProductQuantityEndpointTests : IClassFixture<WebApplicationFa
             {
                 services.RemoveAll<IProductsRepository>();
                 services.RemoveAll<ILogger<UpdateProductQuantityEndpoint>>();
-                services.RemoveAll<IValidator<UpdateProductQuantityQuery>>();
+                services.RemoveAll<IValidator<UpdateProductQuantityCommand>>();
                 services.RemoveAll<IEntityIdProvider>();
                 services.RemoveAll<TimeProvider>();
 
                 services.AddSingleton(mockRepository.Object);
                 services.AddSingleton(mockLogger.Object);
-                services.AddSingleton<IValidator<UpdateProductQuantityQuery>>(
-                    new UpdateProductQuantityQueryValidator());
+                services.AddSingleton<IValidator<UpdateProductQuantityCommand>>(
+                    new UpdateProductQuantityCommandValidator());
                 services.AddSingleton(mockIdProvider.Object);
                 services.AddSingleton<TimeProvider>(timeProvider);
             });
@@ -123,13 +123,13 @@ public class UpdateProductQuantityEndpointTests : IClassFixture<WebApplicationFa
             {
                 services.RemoveAll<IProductsRepository>();
                 services.RemoveAll<ILogger<UpdateProductQuantityEndpoint>>();
-                services.RemoveAll<IValidator<UpdateProductQuantityQuery>>();
+                services.RemoveAll<IValidator<UpdateProductQuantityCommand>>();
                 services.RemoveAll<TimeProvider>();
 
                 services.AddSingleton(mockRepository.Object);
                 services.AddSingleton(mockLogger.Object);
-                services.AddSingleton<IValidator<UpdateProductQuantityQuery>>(
-                    new UpdateProductQuantityQueryValidator());
+                services.AddSingleton<IValidator<UpdateProductQuantityCommand>>(
+                    new UpdateProductQuantityCommandValidator());
                 services.AddSingleton<TimeProvider>(timeProvider);
             });
         }).CreateClient();
@@ -175,13 +175,13 @@ public class UpdateProductQuantityEndpointTests : IClassFixture<WebApplicationFa
             {
                 services.RemoveAll<IProductsRepository>();
                 services.RemoveAll<ILogger<UpdateProductQuantityEndpoint>>();
-                services.RemoveAll<IValidator<UpdateProductQuantityQuery>>();
+                services.RemoveAll<IValidator<UpdateProductQuantityCommand>>();
                 services.RemoveAll<TimeProvider>();
 
                 services.AddSingleton(mockRepository.Object);
                 services.AddSingleton(mockLogger.Object);
-                services.AddSingleton<IValidator<UpdateProductQuantityQuery>>(
-                    new UpdateProductQuantityQueryValidator());
+                services.AddSingleton<IValidator<UpdateProductQuantityCommand>>(
+                    new UpdateProductQuantityCommandValidator());
                 services.AddSingleton<TimeProvider>(timeProvider);
             });
         }).CreateClient();
@@ -218,13 +218,13 @@ public class UpdateProductQuantityEndpointTests : IClassFixture<WebApplicationFa
             {
                 services.RemoveAll<IProductsRepository>();
                 services.RemoveAll<ILogger<UpdateProductQuantityEndpoint>>();
-                services.RemoveAll<IValidator<UpdateProductQuantityQuery>>();
+                services.RemoveAll<IValidator<UpdateProductQuantityCommand>>();
                 services.RemoveAll<TimeProvider>();
 
                 services.AddSingleton(mockRepository.Object);
                 services.AddSingleton(mockLogger.Object);
-                services.AddSingleton<IValidator<UpdateProductQuantityQuery>>(
-                    new UpdateProductQuantityQueryValidator());
+                services.AddSingleton<IValidator<UpdateProductQuantityCommand>>(
+                    new UpdateProductQuantityCommandValidator());
                 services.AddSingleton<TimeProvider>(timeProvider);
             });
         }).CreateClient();
@@ -278,14 +278,14 @@ public class UpdateProductQuantityEndpointTests : IClassFixture<WebApplicationFa
             {
                 services.RemoveAll<IProductsRepository>();
                 services.RemoveAll<ILogger<UpdateProductQuantityEndpoint>>();
-                services.RemoveAll<IValidator<UpdateProductQuantityQuery>>();
+                services.RemoveAll<IValidator<UpdateProductQuantityCommand>>();
                 services.RemoveAll<IEntityIdProvider>();
                 services.RemoveAll<TimeProvider>();
 
                 services.AddSingleton(mockRepository.Object);
                 services.AddSingleton(mockLogger.Object);
-                services.AddSingleton<IValidator<UpdateProductQuantityQuery>>(
-                    new UpdateProductQuantityQueryValidator());
+                services.AddSingleton<IValidator<UpdateProductQuantityCommand>>(
+                    new UpdateProductQuantityCommandValidator());
                 services.AddSingleton(mockIdProvider.Object);
                 services.AddSingleton<TimeProvider>(timeProvider);
             });
@@ -344,14 +344,14 @@ public class UpdateProductQuantityEndpointTests : IClassFixture<WebApplicationFa
             {
                 services.RemoveAll<IProductsRepository>();
                 services.RemoveAll<ILogger<UpdateProductQuantityEndpoint>>();
-                services.RemoveAll<IValidator<UpdateProductQuantityQuery>>();
+                services.RemoveAll<IValidator<UpdateProductQuantityCommand>>();
                 services.RemoveAll<IEntityIdProvider>();
                 services.RemoveAll<TimeProvider>();
 
                 services.AddSingleton(mockRepository.Object);
                 services.AddSingleton(mockLogger.Object);
-                services.AddSingleton<IValidator<UpdateProductQuantityQuery>>(
-                    new UpdateProductQuantityQueryValidator());
+                services.AddSingleton<IValidator<UpdateProductQuantityCommand>>(
+                    new UpdateProductQuantityCommandValidator());
                 services.AddSingleton(mockIdProvider.Object);
                 services.AddSingleton<TimeProvider>(timeProvider);
             });
@@ -419,14 +419,14 @@ public class UpdateProductQuantityEndpointTests : IClassFixture<WebApplicationFa
             {
                 services.RemoveAll<IProductsRepository>();
                 services.RemoveAll<ILogger<UpdateProductQuantityEndpoint>>();
-                services.RemoveAll<IValidator<UpdateProductQuantityQuery>>();
+                services.RemoveAll<IValidator<UpdateProductQuantityCommand>>();
                 services.RemoveAll<IEntityIdProvider>();
                 services.RemoveAll<TimeProvider>();
 
                 services.AddSingleton(mockRepository.Object);
                 services.AddSingleton(mockLogger.Object);
-                services.AddSingleton<IValidator<UpdateProductQuantityQuery>>(
-                    new UpdateProductQuantityQueryValidator());
+                services.AddSingleton<IValidator<UpdateProductQuantityCommand>>(
+                    new UpdateProductQuantityCommandValidator());
                 services.AddSingleton(mockIdProvider.Object);
                 services.AddSingleton<TimeProvider>(timeProvider);
             });
@@ -494,14 +494,14 @@ public class UpdateProductQuantityEndpointTests : IClassFixture<WebApplicationFa
             {
                 services.RemoveAll<IProductsRepository>();
                 services.RemoveAll<ILogger<UpdateProductQuantityEndpoint>>();
-                services.RemoveAll<IValidator<UpdateProductQuantityQuery>>();
+                services.RemoveAll<IValidator<UpdateProductQuantityCommand>>();
                 services.RemoveAll<IEntityIdProvider>();
                 services.RemoveAll<TimeProvider>();
 
                 services.AddSingleton(mockRepository.Object);
                 services.AddSingleton(mockLogger.Object);
-                services.AddSingleton<IValidator<UpdateProductQuantityQuery>>(
-                    new UpdateProductQuantityQueryValidator());
+                services.AddSingleton<IValidator<UpdateProductQuantityCommand>>(
+                    new UpdateProductQuantityCommandValidator());
                 services.AddSingleton(mockIdProvider.Object);
                 services.AddSingleton<TimeProvider>(timeProvider);
             });
