@@ -23,17 +23,9 @@ Before running the project, ensure you have the following installed:
   - Download from: https://dotnet.microsoft.com/download
   - Verify installation: `dotnet --version`
 
-- **Database Server**:
-  - SQL Server 2022 or later (recommended)
-  - In memory option by adjusting section in `appsettings.json` or `appsettings.Development.json`:
-  
-  ```json
-  {
-    "DatabaseSettings": {
-      "UseInMemoryDatabase": true
-    },
-  }
-  ```
+- **Docker Desktop** or **Docker Engine**
+  - Download from: https://www.docker.com/products/docker-desktop
+  - Verify installation: `docker --version` and `docker compose version`
 
 ### Optional Tools
 
@@ -44,66 +36,122 @@ Before running the project, ensure you have the following installed:
 
 ## Getting Started
 
-### 1. Clone the Repository
+### Quick Start with Docker Compose (Recommended)
+
+The easiest way to run the entire application stack (API + SQL Server + Database Seeding) is using Docker Compose.
+
+#### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/TMatej/AlzaEshopApi.git
 cd AlzaEshop.API
 ```
 
-### 2. Configure Database Connection
+#### 2. Start the Application
+
+```bash
+# Build and start all services
+docker compose up --build
+
+# Or run in detached mode (background)
+docker compose up --build -d
+```
+
+This single command will:
+- Start SQL Server 2025 container
+- Wait for SQL Server to be healthy
+- Run database seed scripts from `./db/seed.sql`
+- Build and start the AlzaEshop API container
+
+#### 3. Access the Application
+
+Once all containers are running, the application will be available at:
+
+- **API**: `http://localhost:8080`
+- **Scalar UI**: `http://localhost:8080/scalar/v1`
+- **OpenAPI Spec v1**: `http://localhost:8080/openapi/v1.json`
+- **OpenAPI Spec v2**: `http://localhost:8080/openapi/v2.json`
+
+#### 4. Stop the Application
+
+```bash
+# Stop all services
+docker compose down
+
+# Stop and remove volumes (clean slate)
+docker compose down -v
+```
+
+### Docker Compose Services
+
+The `docker-compose.yml` defines three services:
+
+1. **sqlserver**: SQL Server 2025 container
+   - Port: `1433`
+   - Persistent volume: `sql-data`
+
+2. **db-seed**: Database seeding service
+   - Automatically runs `./db/seed.sql` after SQL Server is healthy
+   - Exits after seeding completes
+
+3. **alzaeshop-api**: The API application
+   - Port: `8080`
+   - Automatically connects to SQL Server
+   - Runs in Development mode with Scalar documentation enabled
+
+### Manual Development Setup (Without Docker)
+
+If you prefer to run the API locally without Docker:
+
+#### 1. Configure Database Connection
 
 Update the connection string in `appsettings.json` or `appsettings.Development.json`:
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=AlzaEshop;Trusted_Connection=True;MultipleActiveResultSets=true"
+    "ProductsConnection": "Server=(localdb)\\mssqllocaldb;Database=ProductCatalog;Trusted_Connection=True;MultipleActiveResultSets=true"
   }
 }
 ```
 
-### 3. Apply Database Migrations
+Or use the in-memory database option:
+
+```json
+{
+  "DatabaseSettings": {
+    "UseInMemoryDatabase": true
+  }
+}
+```
+
+#### 2. Apply Database Migrations (SQL Server only)
 
 ```bash
 # Navigate to the project directory
 cd AlzaEshop.API
 
-# Create and apply migrations
-dotnet ef migrations add InitialCreate
+# Apply migrations
 dotnet ef database update
 ```
 
-### 4. Restore Dependencies
+#### 3. Restore Dependencies
 
 ```bash
 dotnet restore
 ```
 
-### 5. Run the Application
-
-#### Using .NET CLI:
+#### 4. Run the Application
 
 ```bash
 dotnet run
 ```
 
-#### Using Visual Studio:
-1. Open `AlzaEshop.API.sln`
-2. Press `F5` or click "Start Debugging"
-
-### 6. Access the Application
-
-Once running, the application will be available at:
+#### 5. Access the Application
 
 - **HTTPS**: `https://localhost:5001` (or check console output for actual port)
 - **HTTP**: `http://localhost:5000`
-
-#### API Documentation (Development Only)
-
 - **Scalar UI**: `https://localhost:5001/scalar/v1`
-- **OpenAPI Spec v1**: `https://localhost:5001/openapi/v1.json`
-- **OpenAPI Spec v2**: `https://localhost:5001/openapi/v2.json`
 
 ## API Versioning
 
@@ -124,25 +172,40 @@ dotnet test
 
 # Run tests with detailed output
 dotnet test --verbosity normal
-
-# Run tests with code coverage
-dotnet test --collect:"XPlat Code Coverage"
 ```
 
 ## Project Structure
 
 ```
 AlzaEshop.API/
-├── Common/
-│   ├── Endpoints/          # Endpoint definitions and registration
-│   └── ...                 # Shared utilities and extensions
-├── Features/               # Feature-based organization
-├── appsettings.json        # Application configuration
-├── Program.cs              # Application entry point
-└── AlzaEshop.API.csproj
+├── AlzaEshop.API/
+│   ├── Common/
+│   │   ├── Endpoints/          # Endpoint definitions and registration
+│   │   └── ...                 # Shared utilities and extensions
+│   ├── Features/               # Feature-based organization
+│   ├── appsettings.json        # Application configuration
+│   ├── Program.cs              # Application entry point
+│   ├── Dockerfile              # Docker configuration
+│   └── AlzaEshop.API.csproj
+├── db/
+│   └── seed.sql                # Database seed scripts
+├── docker-compose.yml          # Docker Compose configuration
+└── README.md
 ```
 
 ## Configuration
+
+### Environment Variables
+
+The Docker Compose setup uses the following environment variables:
+
+```yaml
+- ASPNETCORE_ENVIRONMENT=Development
+- ASPNETCORE_URLS=http://+:8080
+- ConnectionStrings__ProductsConnection=Server=sqlserver,1433;Database=ProductCatalog;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True
+```
+
+You can override these in a `.env` file or modify `docker-compose.yml`.
 
 ### Logging Configuration
 

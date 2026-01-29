@@ -1,4 +1,42 @@
 services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: sqlserver
+    ports:
+      - 1433:1433
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Passw0rd", "-C", "-Q", "SELECT 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - alzaeshop-network
+  
+  db-seed:
+      image: mcr.microsoft.com/mssql-tools
+      container_name: dbseed
+      depends_on:
+        sqlserver:
+          condition: service_healthy
+      volumes:
+        - ./db:/scripts
+      entrypoint: >
+        bash -c "
+          echo '⏳ Waiting before running seed script...';
+          sleep 5;
+          echo '🚀 Running seed.sql';
+          /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P YourStrong!Passw0rd -i /scripts/seed.sql;
+          echo '✅ Seed data inserted';
+        "
+      networks:
+        - alzaeshop-network
+
   alzaeshop-api:
     build:
       context: .
@@ -9,10 +47,17 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-    volumes:
-      - ~/.aspnet/https:/https:ro
+      - DOTNET_GENERATE_CERTIFICATE=false
+      - ConnectionStrings__ProductsConnection=Server=sqlserver,1433;Database=ProductCatalog;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True
+    depends_on:
+      sqlserver:
+        condition: service_healthy
     networks:
       - alzaeshop-network
+
+volumes:
+  sqlvolume:
+    name: sql-data
 
 networks:
   alzaeshop-network:

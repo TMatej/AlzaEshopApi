@@ -29,7 +29,6 @@ app.MapEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
-    //// Apply migrations and seed database
     app.MapOpenApi("/openapi/{documentName}.json");
     app.MapScalarApiReference(options =>
     {
@@ -39,8 +38,14 @@ if (app.Environment.IsDevelopment())
             .AddDocument("v1", "Version 1", "/openapi/v1.json", true)
             .AddDocument("v2", "Version 2", "/openapi/v2.json");
     });
-}
 
-app.UseHttpsRedirection();
+    // Redirect root to Scalar documentation from root
+    app.MapGet("/", () => Results.Redirect("/scalar/v1"))
+        .ExcludeFromDescription();
+}
+else
+{
+    app.UseHttpsRedirection();
+}
 
 app.Run();
